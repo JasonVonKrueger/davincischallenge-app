@@ -1,0 +1,456 @@
+@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap');
+
+
+@font-face {
+    font-family: 'dvc1-papyrus';
+    src: url('../fonts/papyrus.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'dvc1-copperplate-gothic';
+    src: url('../fonts/Copperplate-Gothic-Medium.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'davinci';
+    src: url('../fonts/P22 Da Vinci Forward Regular.ttf') format('truetype')
+}
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --board-width: 0px;
+    --oval-piece-width: 0px;
+    --triangle-piece-width: 0px;
+    --font-modal: 'Yanone Kaffeesatz', sans-serif;
+    --font-button: 'Yanone Kaffeesatz', sans-serif;
+    --font-scorecard: 'Courgette', cursive;
+}
+
+html,
+body {
+    height: 100vh;
+    width: 100vw;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(0, 0, 0);
+    cursor: url('../images/arrow-cursor.svg'), auto;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 15% 70% 15%;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#spotter {
+    position: absolute;
+    margin-top: 0px;
+    left: 46.5%;
+    width: 100px;
+    height: 30px;
+    background-color: rgb(59, 55, 55);
+    border: 4px solid #222;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    opacity: .72;
+    color: #fff;
+    text-align: center;
+}
+
+#spotter:hover {
+    opacity: 120%;
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+.overlay-content .input-text {
+    height: 2em;
+    width: 300px;
+}
+
+/*******************************************************************/
+/* game board */
+svg path {
+    fill: none;
+    stroke-width: 2px;
+    stroke: rgb(226, 213, 145);
+}
+
+.slot-taken:hover {
+    cursor: url('../images/arrow-cursor.svg'), auto;
+}
+
+.cup-white-ovals,
+.cup-white-triangles,
+.cup-black-ovals,
+.cup-black-triangles {
+    background: rgba(76, 175, 80, 0);
+    position: absolute;
+}
+
+/*******************************************************************/
+/* score cards */
+.scorecard-container {
+    font-family: 'Courgette', cursive;
+    background-image: url('../images/parchment_background.jpg');
+    background-size: 100% 100%;
+}
+
+.grid-container-scorecard {
+    min-height: 100%;
+    break-inside: avoid;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    color: #333;
+    padding: 10px;
+}
+
+.grid-container-scorecard>div {
+    background-color: rgba(255, 255, 255, .3);
+    text-align: center;
+    font-size: 22px;
+    border: 1px solid rgb(14, 4, 4);
+    padding: 3px;
+}
+
+.ss-pattern-icon {
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/*******************************************************************/
+/* Game pieces */
+.game-piece {
+    position: absolute;
+}
+
+[id^='blackTriangle'],
+[id^='blackOval'] {
+    pointer-events: none;
+}
+
+[id^='whiteTriangle'],
+[id^='blackTriangle'] {
+    transform: rotate(200deg);
+}
+
+[id^='whiteTriangle'],
+[id^='whiteOval'] {
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+[id^='oval'] {
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+[id^='triangle'] {
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+/*******************************************************************/
+/*  Game piece animations */
+.oval-piece-slide {
+    filter: drop-shadow(0.6rem 0.6rem 1rem rgb(0, 0, 0));
+    animation: oval-piece-slide .5s forwards, float 2s ease-out infinite;
+}
+
+.triangle-piece-slide {
+    filter: drop-shadow(0.6rem 0.6rem 1rem rgb(0, 0, 0));
+    animation: triangle-piece-slide .5s forwards, float 2s ease-out infinite;
+}
+
+@keyframes oval-piece-slide {
+    to {
+        left: calc(var(--board-width) * 1.05);
+    }
+}
+
+@keyframes triangle-piece-slide {
+    to {
+        left: calc(var(--board-width) * -.58);
+    }
+}
+
+@keyframes float {
+    from {
+        transform: translate(0, 0px);
+    }
+
+    65% {
+        transform: translate(0, 15px);
+    }
+
+    to {
+        transform: translate(0, -0px);
+    }
+}
+
+/*******************************************************************/
+/* buttons */
+button {
+    font-family: var(--font-button);
+    font-size: .82em;
+    display: inline-block;
+    padding: 15px 25px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: rgb(65, 21, 21);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+button:hover {
+    background-color: rgb(90, 48, 48);
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+button:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+/*******************************************************************/
+/* inputs */
+::placeholder {
+    opacity: .7;
+    font-style: italic;
+    font-size: 1em;
+}
+
+/*******************************************************************/
+/* menu overlay */
+.overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow-y: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    clear: both;
+}
+
+.overlay span {
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay span:hover,
+.overlay span:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    float: right;
+    margin-right: 30px;
+}
+
+.overlay .closebtn:hover {
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+/*******************************************************************/
+/* "Waiting" */
+#txtWaiting>span {
+    font-size: 1.3em;
+    font-weight: 400;
+    font-stretch: expanded;
+    position: relative;
+    display: inline-block;
+    animation: flip 6s infinite;
+    animation-delay: calc(.2s * var(--i))
+}
+
+@keyframes flip {
+    0%,
+    90% {
+        transform: rotateY(360deg)
+    }
+}
+
+/*******************************************************************/
+/* feedback */
+#feedback {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    width: 460px;
+    border-top-right-radius: 10%;
+}
+
+#feedbackText {
+    resize: none;
+    outline: none;
+    width: 450px;
+    border-width: 0px;
+    padding: 10px;
+    font-size: 1.2em;
+}
+
+/*******************************************************************/
+/* modal */
+.modal {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    text-align: center;
+    font-size: 1.7em;
+    font-family: var(--font-modal);
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    border-radius: 4px;
+    height: 400px;
+    width: 45%;
+    box-shadow: -5px -5px 10px;
+}
+
+.modal-content>.header {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 50px;
+    background-color: rgb(238, 214, 76);
+}
+
+/*******************************************************************/
+/* game code container */
+#twoPlayerModalContent input {
+    text-align: center;
+    width: 120px;
+    padding: 7px 10px;
+    font-size: 1em;
+}
+
+#btnCopy {
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+/*******************************************************************/
+/* logo */
+.title-logo {
+    position: relative;
+    background-image: url('../images/dvc-logo-001.png');
+    background-repeat: no-repeat;
+    background-size: 700px 450px;
+    height: 450px;
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 175px;
+}
+
+/*******************************************************************/
+/* action icons */
+#actionIconRow {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+#actionIconRow>div {
+    width: 100px;
+    margin: 10px;
+    text-align: center;
+}
+
+.action-icon {
+    background-repeat: no-repeat;
+    background-size: 80px 80px;
+    height: 80px;
+    width: 80px;
+    opacity: 60%;
+}
+
+.action-icon:hover {
+    opacity: 120%;
+    cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+}
+
+#iconSinglePlayer {
+    background-image: url('../images/icon_1_player.png');
+}
+
+#iconDoublePlayer {
+    background-image: url('../images/icon_2_player.png');
+}
+
+#iconMusic {
+    background-image: url('../images/icon_music_off.png');
+}
+
+#iconHelp {
+    background-image: url('../images/icon_help.png');
+}
+
+#iconExit {
+    background-image: url('../images/icon_exit.png');
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 100px;
+    background-color: rgb(99, 13, 13);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 1.1em;
+    font-family: 'dvc1-copperplate-gothic';
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}

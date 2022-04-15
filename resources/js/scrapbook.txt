@@ -1,0 +1,154 @@
+// ****************************************************************
+// single player clicked
+// document.querySelector('#btnSinglePlayer').addEventListener('click', function(event) {
+//     // close the menu
+//     document.querySelector("#menu").style.height = '0%'
+
+//     __gameInProgress = true
+
+//     // get initial list of available slots
+//     Array.from(document.querySelectorAll('[id^="oval"],[id^="triangle"]')).forEach(function (slot) {
+//         AVAILABLE_SLOTS.push(slot.id)
+//     })
+
+//     // temporary single player
+//     __currentPlayer = 1
+//     document.querySelector('#namePlayer1').innerText = 'Human'
+//     document.querySelector('#namePlayer2').innerText = 'Leo'
+
+//     // load game pieces
+//     DROPPING_PIECES.play()
+//     loadGamePieces()
+
+//     socket.send(JSON.stringify({
+//         'event': 'CREATE_GAME',
+//         'type': 'SELF',
+//         'currentPlayer': 1,
+//         'availableSlots': AVAILABLE_SLOTS
+//     }))
+
+//     // send initial game stats (i.e. game pieces and available slots)
+//     //sendGameUpdate()
+// })
+
+
+// ****************************************************************
+// create game clicked
+// document.querySelector('#btnCreateGame').addEventListener('click', function(event) {
+//     document.querySelector('#btnCreateGame').style.display = 'none'
+//     document.querySelector('#sectionName').style.display = 'grid'
+// })
+
+
+// ****************************************************************
+// name box clicked
+// document.querySelector('#btnPlayerName').addEventListener('click', function(event) {
+//     document.querySelector('#namelessErrorBox').classList.add('hidden')
+// })
+
+
+// ****************************************************************
+// new game clicked
+// document.querySelector('#btnNewGame').addEventListener('click', function(event) {
+//     if (document.querySelector('#__playerName').value !== '') {
+//         socket.send(JSON.stringify({
+//             'event': 'CREATE_GAME',
+//             'type': 'MULTI',
+//             'availableSlots': AVAILABLE_SLOTS           
+//         }))
+//     } else {
+//         document.querySelector('#namelessErrorBox').classList.remove('hidden')
+//     }
+// })
+
+
+// ****************************************************************
+// start game clicked
+// document.querySelector('#btnStartGame').addEventListener('click', function (event) {
+//     // person who starts the new game will be player 1
+//     __currentPlayer = 1
+
+//     socket.send(JSON.stringify({
+//         'event': 'START_GAME',
+//         gameID: __gameID,
+//         // 'playerName': document.querySelector('#__playerName').value.trim()
+//     }))
+// })
+
+
+// ****************************************************************
+// existing game clicked
+// document.querySelector('#btnExistingGame').addEventListener('click', function (event) {
+//     if (document.querySelector('#__playerName').value !== '') {
+//         document.querySelector('#gamePanelInstr').innerHTML = 'Enter the room ID you were given:';
+//         document.querySelector('#gamePanel').classList.add('hidden')
+//         document.querySelector('#btnCopyGameID').classList.remove('hidden')
+//     } 
+//     else {
+//         document.querySelector('#namelessErrorBox').classList.remove('hidden')
+//     }
+// })
+
+
+// ****************************************************************
+// join game clicked
+// document.querySelector('#btnJoinGame').addEventListener('click', function (event) {
+//     // if joining a game, you're player 2
+//     playerNumber = 2
+
+//     socket.send(JSON.stringify({
+//         'event': 'JOIN_GAME',
+//         'playerName': document.querySelector('#__playerName').value.trim(), //$('#__playerName').val().trim(),
+//         'gameID': document.querySelector('#gameID').value.trim() //$('#gameID').val().trim()
+//     }))
+// })
+
+// listen for 'copy to clipboard'
+// document.querySelector('#btnCopyGameID').on('click', function (e) {
+//     document.execCommand("copy");
+//     document.querySelector('#btnStartGame').classList.remove('hidden')
+// })
+
+// when gameID is filled
+// document.querySelector('#gameID').on('input', function (e) {
+//     setTimeout(function () {
+//         document.querySelector('#btnJoinGame').classList.remove('hidden')
+//     }, 1000)
+// })
+
+// ****************************************************************
+// feedback clicked
+// document.querySelector('#btnFeedback').addEventListener('click', function(event) {
+//     if (document.querySelector("#feedback").classList.contains('hidden')) {
+//         document.querySelector("#feedback").classList.remove('hidden')
+//     }
+//     else {
+//         document.querySelector("#feedback").classList.add('hidden')
+//     }
+// })
+
+
+// ****************************************************************
+// update server with available game pieces and board slots
+// function sendGameUpdate() {
+//     socket.send(JSON.stringify({
+//         'event': 'UPDATE_GAME',
+//         'gameID': __gameID,
+//         'availableSlots': AVAILABLE_SLOTS,
+//         'whiteOvals': WHITE_OVALS,
+//         'blackOvals': BLACK_OVALS
+//     }));
+// }
+
+
+
+
+//  require('./resources/classes/Game.js')
+//  require('./resources/classes/Player.js')
+//  require('./resources/classes/Sound.js')
+
+
+        <div id="sectionName" class="section-input" style="display: none;">   
+          <input type="text" name="playerName" placeholder="Your name here!" />
+          <button type="button" id="btnPlayerName">NEXT</button> 
+        </div>

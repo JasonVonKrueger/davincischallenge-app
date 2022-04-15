@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="./">
+    <title>Da Vinci's Challenge</title>
+    <meta name="description" content="Da Vinci's Challenge">
+    <meta name="author" content="Mr Monster">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="apple-touch-icon" href="https://dev.davincischallenge.app/assets/images/ios/touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://dev.davincischallenge.app/assets/images/ios/touch-icon-ipad.png">
+    <link rel="apple-touch-startup-image" href="https://dev.davincischallenge.app/assets/images/ios/launch.png">
+    <link rel="icon" href="https://dev.davincischallenge.app/assets/images/favicon.ico">    
+    <link href="resources/css/main.css" rel="stylesheet">
+    <link href="resources/css/mobile.css" rel="stylesheet"> 
+  </head>
+  <body>
+   
+    <!-- spotter for menu -->
+    <div id="spotter">&#9776;</div>
+    <div id="menu" class="overlay">
+      <span id="btnMenuClose" class="closebtn hidden">&times;</span>
+      <div class="overlay-content">   
+       
+        <div class="title-logo"></div>
+        
+        <div id="actionIconRow">
+          <div id="iconSinglePlayer" class="action-icon tooltip clicker">
+            <span class="tooltiptext">Single player</span>
+          </div>
+          <div id="iconDoublePlayer" class="action-icon tooltip clicker">
+            <span class="tooltiptext">Play a friend</span>
+          </div>
+          <div id="iconMusic" class="action-icon tooltip clicker">
+            <span class="tooltiptext">Toggle music</span>
+          </div>
+          <div id="iconHelp" class="action-icon tooltip clicker">
+            <span class="tooltiptext">Help</span>
+          </div>
+          <div id="iconExit" class="action-icon tooltip clicker">
+            <span class="tooltiptext">Exit</span>
+          </div>
+        </div>
+     
+      </div>
+    </div>
+
+    <div id="twoPlayerModal" class="modal hidden">
+      <div id="twoPlayerModalContent" class="modal-content">
+       <div class="header"></div>
+
+        <div id="sectionCreateGame">
+          <p>To start a new game with a friend, get a code and share it with them.</p>
+          <input type="text" id="inpCreateGameCode" class="hidden" />
+          <button id="btnGetCode" class="clicker">Get Code</button>
+          <div id="sectionCopyCode" class="hidden">
+            <p>Now, copy this code and send it to your opponent!</p>
+          <button id="btnCopy" class="clicker">Copy</button>
+          </div>
+        </div>
+        <hr />
+        <div id="sectionJoinGame">
+          <p>If someone sent a code to you, enter it below.</p>
+          <div><input type="text" id="inpJoinGameCode" maxlength="5" /></div>
+          <p><button id="btnJoinGame" class="hidden clicker">Join Game</button></p>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="waitingForPlayer" class="modal hidden">
+      <div class="modal-content">
+        <div class="header"></div>
+        <div id="txtWaiting"></div>
+      </div>
+    </div> 
+    
+    <div class="container">
+        <!-- game board -->
+        <div id="player1-scorecard" class="scorecard-container">
+            <div data-include="resources/scoresheetP1.html"></div>
+        </div>
+
+      <div id="gameboard" class="column column-70">
+        <div data-include="resources/images/gameboard_emboss.svg"></div>
+      </div>
+
+        <div id="player2-scorecard" class="scorecard-container">
+            <div data-include="resources/scoresheetP2.html"></div>
+        </div>
+    </div>
+
+    <!-- game cup overlays -->
+    <div class="cup-white-ovals"></div>
+    <div class="cup-white-triangles"></div>
+    <div class="cup-black-ovals"></div>
+    <div class="cup-black-triangles"></div>
+
+    <!-- MOBILE: rotate your device -->
+    <div class="device-message">
+      <p>Rotate your device</p>
+      <img src="resources/images/rotate-phone2.gif" />
+    </div>
+  
+  
+    <script src="renderer.js"></script>
+    <script src="resources/js/csi.min.js"></script>
+    <script src="resources/classes/Game.js"></script>
+    <script src="resources/classes/Player.js"></script>
+    <script src="resources/classes/Sound.js"></script>
+    <script src="resources/js/main.js"></script>
+    <script src="resources/js/socket.js"></script>
+
+  </body>
+</html>

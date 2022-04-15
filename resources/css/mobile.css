@@ -1,0 +1,77 @@
+/*******************************************************************/
+/* show the device message to rotate phone */
+@media screen and (orientation: portrait) {
+    body {
+        background-color: #000;
+    }
+
+    button,
+    #menu-bar,
+    .container,
+    .game-piece {
+        display: none;
+    }
+
+    .device-message {
+        display: contents;
+        position: absolute;
+        text-align: center;
+        font-family: 'Hind Siliguri', sans-serif;
+        font-size: 2em;
+        width: 100vw;
+        height: 100vh;
+        color: #fff;
+    }
+
+    #loginViewport {
+        width: 99vw;
+        height: 99vh;
+        font-size: 1.2em;
+    }
+
+    #loginViewport .status-box {
+        max-height: 41px;
+        min-width: 50px;
+        text-align: center;
+        float: right;
+        background: #fff;
+        color: #666;
+        border: 0px;
+    }
+}
+
+/*******************************************************************/
+/* overlay */
+/* @media screen and (max-height: 450px) {
+    .overlay {
+        overflow-y: auto;
+    }
+
+    .overlay a {
+        font-size: 20px
+    }
+
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+} */
+
+/*******************************************************************/
+/* hide menu on mobile landscape */
+@media screen and (orientation: landscape) {
+    .device-message {
+        display: none;
+    }
+
+    /* .game-piece {
+        -webkit-transform: scale(.3);
+        -ms-transform: scale(.3);
+        transform: scale(.3);
+    } */
+
+    #loginViewport {
+        width: 100vw;
+    }
+}
