@@ -338,8 +338,8 @@ button:active {
     margin: auto;
     border: 1px solid #888;
     border-radius: 4px;
-    height: 400px;
-    width: 45%;
+    height: 600px;
+    width: 55%;
     box-shadow: -5px -5px 10px;
     background-image: url('../images/modal-back.png');
     background-size: 100% 100%;    
