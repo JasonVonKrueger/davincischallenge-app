@@ -39,7 +39,6 @@ const btnCopy = document.getElementById('btnCopy')
 const btnJoinGame = document.getElementById('btnJoinGame')
 const btnMenuClose = document.getElementById('btnMenuClose')
 const btnClickers = document.querySelectorAll('.clicker')
-const btnCloseModal = document.querySelector('.btnCloseModal')
 /* --------------------------------------------------------- */
 const sndClick = new Sound('resources/sounds/click.mp3')
 const sndBackgroundMusic = new Sound('resources/sounds/davinci-music.mp3')
@@ -74,11 +73,6 @@ document.addEventListener('DOMContentLoaded', function(evt) {
         }
     })   
     
-    /* --------------------------------------------------------- */
-    btnCloseModal.addEventListener('click', function(evt) {
-        document.getElementById('modalGameRules').classList.add('hidden')
-    })    
-
     /* --------------------------------------------------------- */
     btnGetCode.addEventListener('click', function(evt) {
         inpCreateGameCode.classList.remove('hidden')
@@ -229,10 +223,6 @@ iconExit.addEventListener('click', function(evt) {
     return false    
 })
 
-
-
-
-
 /* --------------------------------------------------------- */
 btnMenuClose.addEventListener('click', function(evt) {
     menu.style.height = '0%'
@@ -288,6 +278,12 @@ function triggerEvent(elem, event) {
     let clickEvent = new Event( event )
     elem.dispatchEvent( clickEvent )
   }
+
+// ****************************************************************
+// close modals
+function closeModal(el) {
+    document.getElementById(el).classList.add('hidden')
+}  
 
 // ****************************************************************
 // join game

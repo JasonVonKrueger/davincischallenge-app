@@ -355,13 +355,15 @@ button:active {
     xxmargin-bottom: 50px;
 }
 
-.btnCloseModal {
+.close-modal-button {
     float: right; 
     font-size: 2em;
+    padding: 5px;
 }
 
-.btnCloseModal:hover {
+.close-modal-button:hover {
     cursor: url('../images/arrow-cursor-hilite.svg'), auto;
+    background-color: cornsilk;
 }
 
 .point-values {
