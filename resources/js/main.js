@@ -39,6 +39,7 @@ const btnCopy = document.getElementById('btnCopy')
 const btnJoinGame = document.getElementById('btnJoinGame')
 const btnMenuClose = document.getElementById('btnMenuClose')
 const btnClickers = document.querySelectorAll('.clicker')
+const btnCloseModal = document.querySelector('.btnCloseModal')
 /* --------------------------------------------------------- */
 const sndClick = new Sound('resources/sounds/click.mp3')
 const sndBackgroundMusic = new Sound('resources/sounds/davinci-music.mp3')
@@ -54,6 +55,97 @@ const GAME_BOARD = document.getElementById('gameboard')
 // create event listeners
 /* --------------------------------------------------------- */
 
+document.addEventListener('DOMContentLoaded', function(evt) {
+
+    /* --------------------------------------------------------- */
+    inpJoinGameCode.addEventListener('focus', function(evt) {
+        document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
+        document.getElementById('sectionCreateGame').classList.add('hidden')
+    })
+
+    /* --------------------------------------------------------- */
+    inpJoinGameCode.addEventListener('keyup', function(evt) {
+        let length = inpJoinGameCode.value.length
+
+        if (length >= 5) {
+            btnJoinGame.classList.remove('hidden')
+        } else {
+            btnJoinGame.classList.add('hidden')
+        }
+    })   
+    
+    /* --------------------------------------------------------- */
+    btnCloseModal.addEventListener('click', function(evt) {
+        document.getElementById('modalGameRules').classList.add('hidden')
+    })    
+
+    /* --------------------------------------------------------- */
+    btnGetCode.addEventListener('click', function(evt) {
+        inpCreateGameCode.classList.remove('hidden')
+        btnGetCode.classList.add('hidden')
+        document.getElementById('sectionCopyCode').classList.remove('hidden')
+        document.getElementById('sectionJoinGame').classList.add('hidden')
+        document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
+
+        inpCreateGameCode.focus()
+        inpCreateGameCode.select()      
+    })    
+
+    /* --------------------------------------------------------- */
+    btnJoinGame.addEventListener('click', function(evt) {
+        // assign this guy as player 2
+        GAME.playerNumber = 2
+        GAME.inProgress = true
+
+        socket.send(JSON.stringify({
+            'event': 'JOIN_GAME',
+            'gameID': inpJoinGameCode.value,
+            'playerNumber': GAME.playerNumber,
+            'isBot': false 
+        }))
+
+        // menu.style.height = '0%'
+        // document.getElementById('twoPlayerModal').classList.add('hidden')
+
+        // load game pieces
+        // sndDroppingPieces.play()
+        // loadGamePieces(2)       
+    })
+
+    /* --------------------------------------------------------- */
+    btnCopy.addEventListener('click', function(evt) {
+        document.execCommand("copy")  
+        document.getElementById('twoPlayerModal').classList.add('hidden')
+        document.querySelector('#waitingForPlayer .modal-content').style.height = '200px'
+        document.querySelector('#waitingForPlayer .modal-content').style.width = '400px'
+        document.getElementById('waitingForPlayer').classList.remove('hidden')
+
+        // do the letter spinning thing
+        const txt = " Waiting for player 2 to join..."
+        for (c in txt) {
+            let char = txt[c]
+            const el = document.createElement("span");
+
+            if (char === ' ') {
+                el.setAttribute('style', 'width: 6px')
+            } else {
+                let m = '--i:' + c;
+                el.setAttribute('style', m);
+            }
+
+            el.innerText = char;
+            document.getElementById('txtWaiting').appendChild(el);
+        }
+    })    
+
+
+
+
+
+
+
+})
+
 // add mousedown listener for buttons
 Array.from(btnClickers).forEach(function(clicker) {
     clicker.addEventListener('mousedown', function(evt) {
@@ -61,23 +153,9 @@ Array.from(btnClickers).forEach(function(clicker) {
     })
 })
 
-/* --------------------------------------------------------- */
-inpJoinGameCode.addEventListener('focus', function(evt) {
-    document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
-    document.getElementById('sectionCreateGame').classList.add('hidden')
-})
 
-/* --------------------------------------------------------- */
-inpJoinGameCode.addEventListener('keyup', function(evt) {
-    let length = inpJoinGameCode.value.length
 
-    if (length >= 5) {
-        btnJoinGame.classList.remove('hidden')
-    }
-    else {
-        btnJoinGame.classList.add('hidden')
-    }
-})
+
 
 /* --------------------------------------------------------- */
 iconSinglePlayer.addEventListener('click', function(evt) {
@@ -129,7 +207,8 @@ iconDoublePlayer.addEventListener('click', function(evt) {
 
 /* --------------------------------------------------------- */
 iconHelp.addEventListener('click', function(evt) {
-    
+    menu.style.height = '0%'
+    document.getElementById('modalGameRules').classList.remove('hidden')
 })
 
 /* --------------------------------------------------------- */
@@ -150,64 +229,9 @@ iconExit.addEventListener('click', function(evt) {
     return false    
 })
 
-/* --------------------------------------------------------- */
-btnGetCode.addEventListener('click', function(evt) {
-    inpCreateGameCode.classList.remove('hidden')
-    btnGetCode.classList.add('hidden')
-    document.getElementById('sectionCopyCode').classList.remove('hidden')
-    document.getElementById('sectionJoinGame').classList.add('hidden')
-    document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
 
-    inpCreateGameCode.focus()
-    inpCreateGameCode.select()      
-})
 
-/* --------------------------------------------------------- */
-btnJoinGame.addEventListener('click', function(evt) {
-    // assign this guy as player 2
-    GAME.playerNumber = 2
-    GAME.inProgress = true
 
-    socket.send(JSON.stringify({
-        'event': 'JOIN_GAME',
-        'gameID': inpJoinGameCode.value,
-        'playerNumber': GAME.playerNumber,
-        'isBot': false 
-    }))
-
-    // menu.style.height = '0%'
-    // document.getElementById('twoPlayerModal').classList.add('hidden')
-
-    // load game pieces
-    // sndDroppingPieces.play()
-    // loadGamePieces(2)       
-})
-
-/* --------------------------------------------------------- */
-btnCopy.addEventListener('click', function(evt) {
-    document.execCommand("copy")  
-    document.getElementById('twoPlayerModal').classList.add('hidden')
-    document.querySelector('#waitingForPlayer .modal-content').style.height = '200px'
-    document.querySelector('#waitingForPlayer .modal-content').style.width = '400px'
-    document.getElementById('waitingForPlayer').classList.remove('hidden')
-
-    // do the letter spinning thing
-    const txt = " Waiting for player 2 to join..."
-    for (c in txt) {
-        let char = txt[c]
-        const el = document.createElement("span");
-
-        if (char === ' ') {
-            el.setAttribute('style', 'width: 6px')
-        } else {
-            let m = '--i:' + c;
-            el.setAttribute('style', m);
-        }
-
-        el.innerText = char;
-        document.getElementById('txtWaiting').appendChild(el);
-    }
-})
 
 /* --------------------------------------------------------- */
 btnMenuClose.addEventListener('click', function(evt) {

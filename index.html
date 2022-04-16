@@ -49,34 +49,15 @@
       </div>
     </div>
 
-    <div id="twoPlayerModal" class="modal hidden">
-      <div id="twoPlayerModalContent" class="modal-content">
+    <!-- two player modal -->
+    <div data-include="resources/content-blocks/modal-two-player.html"></div>
 
-        <div id="sectionCreateGame">
-          <p>To start a new game with a friend, get a code and share it with them.</p>
-          <input type="text" id="inpCreateGameCode" class="hidden" />
-          <button id="btnGetCode" class="clicker">Get Code</button>
-          <div id="sectionCopyCode" class="hidden">
-            <p>Now, copy this code and send it to your opponent!</p>
-          <button id="btnCopy" class="clicker">Copy</button>
-          </div>
-        </div>
-        <hr />
-        <div id="sectionJoinGame">
-          <p>If someone sent a code to you, enter it below.</p>
-          <div><input type="text" id="inpJoinGameCode" maxlength="5" /></div>
-          <p><button id="btnJoinGame" class="hidden clicker">Join Game</button></p>
-        </div>
+    <!-- waiting for player 2 -->
+    <div data-include="resources/content-blocks/modal-waiting-for-player.html"></div>
 
-      </div>
-    </div>
+    <!-- help -->
+    <div data-include="resources/content-blocks/modal-game-rules.html"></div>
 
-    <div id="waitingForPlayer" class="modal hidden">
-      <div class="modal-content">
-        <div id="txtWaiting"></div>
-      </div>
-    </div> 
-    
     <div class="container">
         <!-- game board -->
         <div id="player1-scorecard" class="scorecard-container">
