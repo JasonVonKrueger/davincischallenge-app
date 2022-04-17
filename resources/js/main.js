@@ -34,7 +34,6 @@ const iconMusic = document.getElementById('iconMusic')
 const inpCreateGameCode = document.getElementById('inpCreateGameCode')
 const inpJoinGameCode = document.getElementById('inpJoinGameCode')
 /* --------------------------------------------------------- */
-const btnGetCode = document.getElementById('btnGetCode')
 const btnCopy = document.getElementById('btnCopy')
 const btnJoinGame = document.getElementById('btnJoinGame')
 const btnMenuClose = document.getElementById('btnMenuClose')
@@ -72,18 +71,6 @@ document.addEventListener('DOMContentLoaded', function(evt) {
             btnJoinGame.classList.add('hidden')
         }
     })   
-    
-    /* --------------------------------------------------------- */
-    btnGetCode.addEventListener('click', function(evt) {
-        inpCreateGameCode.classList.remove('hidden')
-        btnGetCode.classList.add('hidden')
-        document.getElementById('sectionCopyCode').classList.remove('hidden')
-        document.getElementById('sectionJoinGame').classList.add('hidden')
-        document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
-
-        inpCreateGameCode.focus()
-        inpCreateGameCode.select()      
-    })    
 
     /* --------------------------------------------------------- */
     btnJoinGame.addEventListener('click', function(evt) {
@@ -283,6 +270,19 @@ function triggerEvent(elem, event) {
 // close modals
 function closeModal(el) {
     document.getElementById(el).classList.add('hidden')
+}  
+
+// ****************************************************************
+// get game code
+function getCode() {
+    inpCreateGameCode.classList.remove('hidden')
+    this.classList.add('hidden')
+    document.getElementById('sectionCopyCode').classList.remove('hidden')
+    document.getElementById('sectionJoinGame').classList.add('hidden')
+    document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
+
+    inpCreateGameCode.focus()
+    inpCreateGameCode.select()  
 }  
 
 // ****************************************************************
