@@ -1,54 +1,54 @@
 /*******************************************************************/
 /* Game */
-class Game {
-    constructor() {
-        this.id = null
-        this.players = []
-        this.board = []
-        this.filledSlots = []
-        this.moves = 0
-        this.difficultyLevel = 1
-        this.game_type = null
-    }
+// class Game {
+//     constructor() {
+//         this.id = null
+//         this.players = []
+//         this.board = []
+//         this.filledSlots = []
+//         this.moves = 0
+//         this.difficultyLevel = 1
+//         this.game_type = null
+//     }
 
-    checkUser = function () {
+//     checkUser = function () {
 
-    }
+//     }
 
-    get getPlayers() {
-        return this.players
-    }
+//     get getPlayers() {
+//         return this.players
+//     }
 
-    get getRoomId() {
-        return this.id
-    }
+//     get getRoomId() {
+//         return this.id
+//     }
 
-    addPlayer = function (playerID) {
-        this.players.push(playerID)
-    }
+//     addPlayer = function (playerID) {
+//         this.players.push(playerID)
+//     }
 
-    // Send an update to the opponent to update their UI
-    playTurn = function (tile) {
-        var clickedTile = $(tile).attr('id');
-        var turnObj = {
-            tile: clickedTile,
-            room: this.getRoomId()
-        };
+//     // Send an update to the opponent to update their UI
+//     playTurn = function (tile) {
+//         var clickedTile = $(tile).attr('id');
+//         var turnObj = {
+//             tile: clickedTile,
+//             room: this.getRoomId()
+//         };
 
-        // Emit an event to update other player that you've played your turn.
-        socket.emit('playTurn', turnObj);
-    }
+//         // Emit an event to update other player that you've played your turn.
+//         socket.emit('playTurn', turnObj);
+//     }
 
-    announceWinner = function () {
-        var message = player.getPlayerName() + ' wins!';
-        socket.emit('gameEnded', {
-            room: this.getRoomId(),
-            message: message
-        });
-        alert(message);
-        location.reload();
-    }
-}
+//     announceWinner = function () {
+//         var message = player.getPlayerName() + ' wins!';
+//         socket.emit('gameEnded', {
+//             room: this.getRoomId(),
+//             message: message
+//         });
+//         alert(message);
+//         location.reload();
+//     }
+// }
 
  /*******************************************************************/
 /* Game pieces (white triangle, white oval, black triangle, black oval) */
