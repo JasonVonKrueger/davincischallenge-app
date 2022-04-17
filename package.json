@@ -1,7 +1,7 @@
 {
   "name": "da_vincis_challenge",
-  "productName": "da_vincis_challenge",
-  "version": "0.50.1",
+  "productName": "Da Vinci's Challenge",
+  "version": "0.2",
   "description": "The ancient game of secret symbols is a classic strategy game with hidden mysteries as old as the pyramids!",
   "main": "app.js",
   "scripts": {
@@ -10,9 +10,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mr. Monster",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
-    "electron": "^17.0.0"
+    "electron": "^17.0.0",
+    "electron-packager": "^15.3.0",
   }
 }

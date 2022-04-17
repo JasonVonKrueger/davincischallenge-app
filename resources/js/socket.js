@@ -16,7 +16,7 @@ socket.onmessage = function (e) {
         switch (message.event) {
             case 'GAME_CREATED':
                 // set the game ID
-                inpCreateGameCode.value = GAME.id
+                if (inpCreateGameCode) inpCreateGameCode.value = GAME.id
 
                 //if (GAME.type === 'SOLO') {
                     socket.send(JSON.stringify({
