@@ -392,6 +392,11 @@ button:active {
     cursor: url('../images/arrow-cursor-hilite.svg'), auto;
 }
 
+#txtWaiting {
+    font-size: 2em;
+    margin-top: 10%;
+}
+
 /*******************************************************************/
 /* logo */
 .title-logo {

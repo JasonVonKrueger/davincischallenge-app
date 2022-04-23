@@ -30,12 +30,11 @@ socket.onmessage = function (e) {
                 GAME.inProgress = true
 
                 //if (GAME.type === 'SOLO') {
-                    sndDroppingPieces.play()
                     loadGamePieces(1)  
                     loadGamePieces(2)   
-
-                    joinGame(GAME.id, 1, false)  //join as human
-                    joinGame(GAME.id, 2, true)   //join as bot
+                    
+                    GAME.join(1, false) // join as human
+                    GAME.join(2, true) // join as bot
                 //}         
 
                 break   
@@ -66,7 +65,6 @@ socket.onmessage = function (e) {
                             document.getElementById('twoPlayerModal').classList.add('hidden')
 
                             // load game pieces
-                            sndDroppingPieces.play()
                             loadGamePieces(2)   
                         }, 2000)                        
                     }
