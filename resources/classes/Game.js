@@ -5,15 +5,23 @@ class Game {
     this.id = null
     this.inProgress = false
     this.activeGamePiece = null
-    this.filledSlots = []
     this.difficultyLevel = 1
     this.type = null
     this.moveStarted = false
+    this.playerNumber = 0
+    this.currentPlayer = 0
+
+    this.playerOne = new Player(1)
+    this.playerTwo = new Player(2)
+
+    this.filledSlots = []
     this.available_slots = []
     this.available_oval_slots = []
     this.available_tri_slots = []
-    this.playerNumber = null
-    this.currentPlayer = 1
+    this.playerOneOvals = []
+    this.playerOneTriangles = []
+    this.playerTwoOvals = []
+    this.playerTwoTriangles = []
 
     this.white_ovals = []
     this.black_ovals = []
@@ -28,6 +36,12 @@ class Game {
   }
 
   join = function (playerNumber, isBot) {
+    sessionStorage.setItem('dvc-game-id', GAME.id)
+    sessionStorage.setItem('dvc-player-id', 'aaa')
+    sessionStorage.setItem('dvc-player-number', this.playerNumber)
+
+    this.inProgress = true
+
     socket.send(JSON.stringify({
       'event': 'JOIN_GAME',
       'gameID': this.id,
@@ -35,10 +49,5 @@ class Game {
       'isBot': isBot
     }))
   }
-
-  get getPlayers() {
-    return this.players
-  }
-
 
 }

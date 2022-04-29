@@ -1,31 +1,11 @@
 /**
  *  Main script for the Da Vinci's Challenge app
  */
+"use strict"
 
 const GAME = new Game()
 
-document.addEventListener('DOMContentLoaded', function (evt) {
-
-    // set up the game
-    // let white_ovals = []
-    // let black_ovals = []
-    // let white_triangles = []
-    // let black_triangles = []
-    // let ACTIVE_GAME_PIECE = null
-    //let AVAILABLE_SLOTS = []
-    let available_oval_slots = []
-    let available_tri_slots = []
-
-    // const GAME = {
-    //     id: null,
-    //     type: null,
-    //     playerNumber: null,
-    //     currentPlayer: 1,
-    //     moveStarted: false,
-    //     inProgress: false,
-    //     activeGamePiece: null
-    // }
-
+document.addEventListener('DOMContentLoaded', function (e) {
     /* --------------------------------------------------------- */
     const txtWaiting = document.getElementById('txtWaiting')
     /* --------------------------------------------------------- */
@@ -35,11 +15,6 @@ document.addEventListener('DOMContentLoaded', function (evt) {
     const iconExit = document.getElementById('iconExit')
     const iconMusic = document.getElementById('iconMusic')
     /* --------------------------------------------------------- */
-    const inpCreateGameCode = document.getElementById('inpCreateGameCode')
-    const inpJoinGameCode = document.getElementById('inpJoinGameCode')
-    /* --------------------------------------------------------- */
-    const btnCopy = document.getElementById('btnCopy')
-    const btnJoinGame = document.getElementById('btnJoinGame')
     const btnMenuClose = document.getElementById('btnMenuClose')
     const btnClickers = document.querySelectorAll('.clicker')
     /* --------------------------------------------------------- */
@@ -48,20 +23,27 @@ document.addEventListener('DOMContentLoaded', function (evt) {
     const GAME_BOARD = document.getElementById('gameboard')
     /* --------------------------------------------------------- */
 
-
+    /* --------------------------------------------------------- */
+    // add mousedown listener for buttons
+    Array.from(btnClickers).forEach(function (clicker) {
+        clicker.addEventListener('mousedown', function (e) {
+            GAME.sndClick.play()
+        })
+    })
 
     /* --------------------------------------------------------- */
-    iconSinglePlayer.addEventListener('click', function (evt) {
-        menu.style.height = '0%'
+    // get initial list of available slots
+    Array.from(document.querySelectorAll('[id^="oval"],[id^="triangle"]')).forEach(function (slot) {
+        GAME.available_slots.push(slot.id)
+    })
 
+    /* --------------------------------------------------------- */
+    iconSinglePlayer.addEventListener('click', function (e) {
+        menu.style.height = '0%'
+        
         GAME.playerNumber = 1
         GAME.currentPlayer = 1
         GAME.type = 'SOLO'
-
-        // get initial list of available slots
-        Array.from(document.querySelectorAll('[id^="oval"],[id^="triangle"]')).forEach(function (slot) {
-            GAME.available_slots.push(slot.id)
-        })
 
         socket.send(JSON.stringify({
             'event': 'CREATE_GAME',
@@ -72,39 +54,29 @@ document.addEventListener('DOMContentLoaded', function (evt) {
     })
 
     /* --------------------------------------------------------- */
-    iconDoublePlayer.addEventListener('click', function (evt) {
+    iconDoublePlayer.addEventListener('click', function (e) {
         menu.style.height = '0%'
+        document.getElementById('twoPlayerModal').classList.remove('hidden')
 
         GAME.playerNumber = 1
         GAME.currentPlayer = 1
         GAME.type = 'FRIEND'
 
-        // get initial list of available slots
-        Array.from(document.querySelectorAll('[id^="oval"],[id^="triangle"]')).forEach(function (slot) {
-            GAME.available_slots.push(slot.id)
-        })
-
         socket.send(JSON.stringify({
             'event': 'CREATE_GAME',
             'type': GAME.type,
-            'currentPlayer': 1,
+            'currentPlayer': GAME.currentPlayer,
             'availableSlots': GAME.available_slots
         }))
-
-        // load game pieces
-        loadGamePieces(1)
-
-        document.getElementById('twoPlayerModal').classList.remove('hidden')
     })
 
     /* --------------------------------------------------------- */
-    iconHelp.addEventListener('click', function (evt) {
-        menu.style.height = '0%'
+    iconHelp.addEventListener('click', function (e) {
         document.getElementById('modalGameRules').classList.remove('hidden')
     })
 
     /* --------------------------------------------------------- */
-    iconMusic.addEventListener('click', function (evt) {
+    iconMusic.addEventListener('click', function (e) {
         if (GAME.sndBackgroundMusic.isPlaying) {
             GAME.sndBackgroundMusic.stop()
             iconMusic.style.backgroundImage = "url('resources/images/icon_music_off.png')"
@@ -115,76 +87,13 @@ document.addEventListener('DOMContentLoaded', function (evt) {
     })
 
     /* --------------------------------------------------------- */
-    iconExit.addEventListener('click', function (evt) {
+    iconExit.addEventListener('click', function (e) {
         window.top.close()
         return false
     })
 
-
-
-
-
-
-
-
-
-    // add mousedown listener for buttons
-    Array.from(btnClickers).forEach(function (clicker) {
-        clicker.addEventListener('mousedown', function (evt) {
-            GAME.sndClick.play()
-        })
-    })
-
     /* --------------------------------------------------------- */
-    if (inpJoinGameCode) {
-        inpJoinGameCode.addEventListener('focus', function (evt) {
-            document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
-            document.getElementById('sectionCreateGame').classList.add('hidden')
-        })
-
-        inpJoinGameCode.addEventListener('keyup', function (evt) {
-            let length = inpJoinGameCode.value.length
-
-            if (length >= 5) {
-                btnJoinGame.classList.remove('hidden')
-            } else {
-                btnJoinGame.classList.add('hidden')
-            }
-        })
-    }
-
-    /* --------------------------------------------------------- */
-    if (btnJoinGame) {
-        btnJoinGame.addEventListener('click', function (evt) {
-            // assign this guy as player 2
-            GAME.playerNumber = 2
-            GAME.inProgress = true
-
-            socket.send(JSON.stringify({
-                'event': 'JOIN_GAME',
-                'gameID': inpJoinGameCode.value,
-                'playerNumber': GAME.playerNumber,
-                'isBot': false
-            }))
-
-            // menu.style.height = '0%'
-            // document.getElementById('twoPlayerModal').classList.add('hidden')
-
-            // load game pieces
-            // sndDroppingPieces.play()
-            // loadGamePieces(2)       
-        })
-    }
-
-    /* --------------------------------------------------------- */
-    if (btnMenuClose) {
-        btnMenuClose.addEventListener('click', function (evt) {
-            menu.style.height = '0%'
-        })
-    }
-
-    /* --------------------------------------------------------- */
-    spotter.addEventListener('click', function (evt) {
+    spotter.addEventListener('click', function (e) {
         if (GAME.inProgress) {
             iconSinglePlayer.classList.add('hidden')
             iconDoublePlayer.classList.add('hidden')
@@ -222,8 +131,6 @@ document.addEventListener('DOMContentLoaded', function (evt) {
     })
 })
 
-
-
 // ****************************************************************
 // Function conjunction
 // ****************************************************************
@@ -242,17 +149,21 @@ function closeModal(control) {
 }
 
 // ****************************************************************
+// close menu overlay
+function closeMenu() {
+    menu.style.height = '0%'
+}
+
+// ****************************************************************
 // copy game code
 function copyGameCode() {
     document.execCommand("copy")
     document.getElementById('twoPlayerModal').classList.add('hidden')
-    //document.querySelector('#waitingForPlayer .modal-content').style.height = '200px'
-    //document.querySelector('#waitingForPlayer .modal-content').style.width = '400px'
     document.getElementById('waitingForPlayer').classList.remove('hidden')
 
     // do the letter spinning thing
     const txt = " Waiting for player 2 to join..."
-    for (c in txt) {
+    for (var c in txt) {
         let char = txt[c]
         const el = document.createElement("span");
 
@@ -280,6 +191,66 @@ function getGameCode(control) {
     inpCreateGameCode.focus()
     inpCreateGameCode.select()
 }
+
+// ****************************************************************
+// handle join game input focus
+function handleJoinGameCodeFocus() {
+    document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
+    document.getElementById('sectionCreateGame').classList.add('hidden')
+}
+
+// ****************************************************************
+// handle join game input key up
+function handleJoinGameCodeKeyUp() {
+    let length = inpJoinGameCode.value.length
+
+    if (length >= 5) {
+        btnJoinGame.classList.remove('hidden')
+    } else {
+        btnJoinGame.classList.add('hidden')
+    }
+}
+
+// ****************************************************************
+// handle join game clicked
+function joinGame() {
+    // assign this guy as player 2
+    GAME.playerNumber = 2
+    GAME.join(GAME.playerNumber, false)
+}
+
+// ****************************************************************
+// show toast
+const FADE_DUR = 700, MIN_DUR = 6000
+let toastContain
+
+function showToast(str, addClass) {
+    let duration = Math.max(MIN_DUR, str.length * 80)
+
+    if (!toastContain) {
+        toastContain = document.createElement('div')
+        toastContain.classList.add('toastContain')
+        document.body.appendChild(toastContain)
+    }
+
+    const el = document.createElement('div')
+    el.classList.add('toast', addClass)
+    el.innerText = str
+    toastContain.prepend(el)
+
+    setTimeout(() => el.classList.add('open'))
+    setTimeout(
+        () => el.classList.remove('open'),
+        duration
+    )
+    setTimeout(
+        () => toastContain.removeChild(el),
+        duration + FADE_DUR
+    )
+}
+
+
+
 
 // ****************************************************************
 // update game board by filling in slot

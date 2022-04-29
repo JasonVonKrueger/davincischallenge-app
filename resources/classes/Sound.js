@@ -24,5 +24,4 @@ class Sound {
         this.sound.pause();
         this.isPlaying = false;
     }
-
 }
