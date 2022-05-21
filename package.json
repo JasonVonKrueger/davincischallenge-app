@@ -2,18 +2,17 @@
   "name": "da_vincis_challenge",
   "productName": "Da Vinci's Challenge",
   "appId": "com.monkeybuddha.davincischallenge",
-  "version": "0.2",
+  "version": "0.2.0",
   "description": "The ancient game of secret symbols is a classic strategy game with hidden mysteries as old as the pyramids!",
   "main": "app.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . --platform=darwin --arch=x64 --ignore=node_modules/electron-* --overwrite --icon=resources/images/electron.icns --app-bundle-id=\"com.monkeybuddha.davincischallenge\" --asar",
+    "build": "electron-packager . --platform=darwin --arch=x64 --ignore=node_modules/electron-* --overwrite --icon=resources/images/electron.icns --app-bundle-id=\"com.monkeybuddha.davincischallenge\" --prune=true --osx-sign.identity=\"Developer ID Application: Roger Poore (W9UL5A7VNY)\" --osx-sign.entitlements=\"temp/entitlements.plist\" --osx-notarize.appleId=\"rpoore@gmail.com\" --osx-notarize.appleIdPassword=\"ygth-cohx-wmno-zakc\" --osx-sign.hardenedRuntime=true --out=release-builds --asar",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mr. Monster",
   "license": "MIT",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.63",
     "electron": "^17.0.0",
     "electron-packager": "^15.3.0"
   }
