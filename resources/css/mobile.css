@@ -1,42 +1,20 @@
 /*******************************************************************/
 /* show the device message to rotate phone */
-@media screen and (orientation: portrait) {
+@media only screen and (orientation: portrait) {
     body {
         background-color: #000;
     }
 
-    button,
-    #menu-bar,
-    .container,
-    .game-piece {
+    .no-portrait {
         display: none;
     }
 
     .device-message {
-        display: contents;
-        position: absolute;
-        text-align: center;
-        font-family: 'Hind Siliguri', sans-serif;
-        font-size: 2em;
-        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: 100vh;
-        color: #fff;
-    }
-
-    #loginViewport {
-        width: 99vw;
-        height: 99vh;
-        font-size: 1.2em;
-    }
-
-    #loginViewport .status-box {
-        max-height: 41px;
-        min-width: 50px;
-        text-align: center;
-        float: right;
-        background: #fff;
-        color: #666;
-        border: 0px;
+        width: 100vw;
     }
 }
 
@@ -60,16 +38,59 @@
 
 /*******************************************************************/
 /* hide menu on mobile landscape */
-@media screen and (orientation: landscape) {
+@media only screen and (orientation: landscape) and (max-width: 860px) {
     .device-message {
         display: none;
     }
 
-    /* .game-piece {
-        -webkit-transform: scale(.3);
-        -ms-transform: scale(.3);
-        transform: scale(.3);
-    } */
+    .title-logo {
+        margin-top: 0px;
+    }
+
+    .action-icon  {
+        -webkit-transform: scale(.6);
+        -ms-transform: scale(.6);
+        transform: scale(.6);
+    }  
+
+    #actionIconRow>div  {
+        margin: -5px;
+    }
+
+    #waitingForPlayer {
+        font-size: .7em;
+    }
+
+    .modal {
+        padding-top: 25px;
+    }
+
+    .modal-content {
+        font-size: .9em;
+    }
+
+    button {
+        padding: 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0 5px #999;
+    }
+
+    button:active {
+        box-shadow: 0 3px #666;
+        transform: translateY(2px);
+    }
+
+    #twoPlayerModalContent input {
+        width: 100px;
+        padding: 4px 7px;
+        font-size: 1em;
+    }
+
+    .game-piece {
+        -webkit-transform: scale(.4);
+        -ms-transform: scale(.4);
+        transform: scale(.4);
+    }
 
     #loginViewport {
         width: 100vw;

@@ -3,97 +3,92 @@
  */
 "use strict"
 
-const GAME = new Game()
+const $ = document.querySelector.bind(document)
 
-document.addEventListener('DOMContentLoaded', function (e) {
+const sndClick = new Sound('resources/sounds/click.mp3')
+const sndOpeningTrack = new Sound('resources/sounds/cinematic-soundtrack-plain-chant-12502.mp3')
+const sndBackgroundMusic = new Sound('resources/sounds/davinci-music.mp3')
+const sndSymbolFormed = new Sound('resources/sounds/symbol-formed.mp3')
+const sndDroppingPieces = new Sound('resources/sounds/dropping-pieces.mp3')
+const sndPickPiece = new Sound('resources/sounds/pickpiece.mp3')
+
+const GAME = new Game()
+const ME = {}
+
+const FADE_DUR = 700, 
+      MIN_DUR = 4000
+
+let toastContain = null
+
+// ****************************************************************
+// Game entry point
+// ****************************************************************
+window.addEventListener("load", function() {
+  console.log('Page has loaded!')
+
+  window.setTimeout(function() {
+    initEventListeners()
+  }, 2000);
+})
+
+
+// ****************************************************************
+// Function conjunction
+// ****************************************************************
+
+// ****************************************************************
+// event handlers
+function initEventListeners() {
+ 
     /* --------------------------------------------------------- */
-    const txtWaiting = document.getElementById('txtWaiting')
-    /* --------------------------------------------------------- */
-    const iconSinglePlayer = document.getElementById('iconSinglePlayer')
-    const iconDoublePlayer = document.getElementById('iconDoublePlayer')
-    const iconHelp = document.getElementById('iconHelp')
-    const iconExit = document.getElementById('iconExit')
-    const iconMusic = document.getElementById('iconMusic')
-    /* --------------------------------------------------------- */
-    const btnMenuClose = document.getElementById('btnMenuClose')
     const btnClickers = document.querySelectorAll('.clicker')
-    /* --------------------------------------------------------- */
-    const menu = document.getElementById('menu')
     const spotter = document.getElementById('spotter')
     const GAME_BOARD = document.getElementById('gameboard')
-    /* --------------------------------------------------------- */
 
     /* --------------------------------------------------------- */
     // add mousedown listener for buttons
-    Array.from(btnClickers).forEach(function (clicker) {
-        clicker.addEventListener('mousedown', function (e) {
-            GAME.sndClick.play()
+    Array.from(document.querySelectorAll('.clicker')).forEach(function(clicker) {
+        clicker.addEventListener('mousedown', function(e) {
+            sndClick.play(false)
         })
     })
 
     /* --------------------------------------------------------- */
-    // get initial list of available slots
-    Array.from(document.querySelectorAll('[id^="oval"],[id^="triangle"]')).forEach(function (slot) {
-        GAME.available_slots.push(slot.id)
-    })
-
-    /* --------------------------------------------------------- */
-    iconSinglePlayer.addEventListener('click', function (e) {
+    $('#iconSinglePlayer').addEventListener('click', function(e) {
         menu.style.height = '0%'
-        
-        GAME.playerNumber = 1
-        GAME.currentPlayer = 1
-        GAME.type = 'SOLO'
-
-        socket.send(JSON.stringify({
-            'event': 'CREATE_GAME',
-            'type': GAME.type,
-            'currentPlayer': GAME.currentPlayer,
-            'availableSlots': GAME.available_slots
-        }))
+        GAME.create('SOLO')
     })
 
     /* --------------------------------------------------------- */
-    iconDoublePlayer.addEventListener('click', function (e) {
+    $('#iconDoublePlayer').addEventListener('click', function(e) {
         menu.style.height = '0%'
         document.getElementById('twoPlayerModal').classList.remove('hidden')
-
-        GAME.playerNumber = 1
-        GAME.currentPlayer = 1
-        GAME.type = 'FRIEND'
-
-        socket.send(JSON.stringify({
-            'event': 'CREATE_GAME',
-            'type': GAME.type,
-            'currentPlayer': GAME.currentPlayer,
-            'availableSlots': GAME.available_slots
-        }))
     })
 
     /* --------------------------------------------------------- */
-    iconHelp.addEventListener('click', function (e) {
+    $('#iconHelp').addEventListener('click', function(e) {
         document.getElementById('modalGameRules').classList.remove('hidden')
     })
 
     /* --------------------------------------------------------- */
-    iconMusic.addEventListener('click', function (e) {
-        if (GAME.sndBackgroundMusic.isPlaying) {
-            GAME.sndBackgroundMusic.stop()
-            iconMusic.style.backgroundImage = "url('resources/images/icon_music_off.png')"
+    $('#iconMusic').addEventListener('click', function(e) {
+        if (sndBackgroundMusic.isPlaying) {
+            sndBackgroundMusic.stop()
+            $('#iconMusic').style.backgroundImage = "url('resources/images/icon_music_off.png')"
         } else {
-            GAME.sndBackgroundMusic.play(true)
-            iconMusic.style.backgroundImage = "url('resources/images/icon_music_on.png')"
+            sndBackgroundMusic.play(true)
+            $('#iconMusic').style.backgroundImage = "url('resources/images/icon_music_on.png')"
         }
     })
 
     /* --------------------------------------------------------- */
-    iconExit.addEventListener('click', function (e) {
+    $('#iconExit').addEventListener('click', function(e) {
         window.top.close()
         return false
-    })
-
+    })  
+      
     /* --------------------------------------------------------- */
-    spotter.addEventListener('click', function (e) {
+    spotter.addEventListener('click', function(e) {
         if (GAME.inProgress) {
             iconSinglePlayer.classList.add('hidden')
             iconDoublePlayer.classList.add('hidden')
@@ -103,9 +98,73 @@ document.addEventListener('DOMContentLoaded', function (e) {
         menu.style.height = '100%'
     })
 
+    /* --------------------------------------------------------- */
+    $('#btnGetGameCode').addEventListener('click', function(e) {
+        GAME.create('FRIEND')
+
+        $('#inpCreateGameCode').classList.remove('hidden')
+        $('#' + e.target.id).classList.add('hidden')
+        $('#sectionCopyCode').classList.remove('hidden')
+        $('#sectionJoinGame').classList.add('hidden')
+        $('#twoPlayerModalContent > hr').classList.add('hidden')        
+    })
+
+    /* --------------------------------------------------------- */
+    $('#btnCopy').addEventListener('click', function(e) {
+        navigator.clipboard.writeText($('#inpCreateGameCode').value)
+        
+        GAME.join(false)
+        
+        $('#twoPlayerModal').classList.add('hidden')
+        $('#waitingForPlayer').classList.remove('hidden')
+
+        // do the letter spinning thing
+        const txt = " Waiting for player 2 to join..."
+        for (var c in txt) {
+            let char = txt[c]
+            const el = document.createElement("span");
+
+            if (char === ' ') {
+                el.setAttribute('style', 'width: 6px')
+            } else {
+                let m = '--i:' + c;
+                el.setAttribute('style', m);
+            }
+
+            el.innerText = char;
+            $('#txtWaiting').appendChild(el);
+        }      
+    })   
+    
+    /* --------------------------------------------------------- */
+    $('#btnJoinGame').addEventListener('click', function(e) {
+        GAME.id = inpJoinGameCode.value
+        GAME.join(false)     
+    })
+
+    $('#inpJoinGameCode').addEventListener('focus', function(e) {
+        $('#twoPlayerModalContent > hr').classList.add('hidden')
+        $('#sectionCreateGame').classList.add('hidden') 
+    })
+
+    $('#inpJoinGameCode').addEventListener('keyup', function(e) {
+        let length = $('#inpJoinGameCode').value.length
+
+        if (length >= 5) {
+            $('#btnJoinGame').classList.remove('hidden')
+        } else {
+            $('#btnJoinGame').classList.add('hidden')
+        }
+    })
+
+    /* --------------------------------------------------------- */
+    $('#btnMenuClose').addEventListener('click', function(e) {
+        menu.style.height = '0%'
+    })
+
     // ******************************************************************************
     // listen for slot cicks on the game board
-    GAME_BOARD.addEventListener('click', function (e) {
+    GAME_BOARD.addEventListener('click', function(e) {
         let slot = document.getElementById(e.target.id)
 
         // get object array index from selected piece
@@ -129,11 +188,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
             }
         }
     })
-})
-
-// ****************************************************************
-// Function conjunction
-// ****************************************************************
+}
 
 // ****************************************************************
 // for simulating events
@@ -144,92 +199,26 @@ function triggerEvent(elem, event) {
 
 // ****************************************************************
 // close modals
-function closeModal(control) {
-    document.getElementById(control).classList.add('hidden')
-}
-
-// ****************************************************************
-// close menu overlay
-function closeMenu() {
-    menu.style.height = '0%'
-}
-
-// ****************************************************************
-// copy game code
-function copyGameCode() {
-    document.execCommand("copy")
-    document.getElementById('twoPlayerModal').classList.add('hidden')
-    document.getElementById('waitingForPlayer').classList.remove('hidden')
-
-    // do the letter spinning thing
-    const txt = " Waiting for player 2 to join..."
-    for (var c in txt) {
-        let char = txt[c]
-        const el = document.createElement("span");
-
-        if (char === ' ') {
-            el.setAttribute('style', 'width: 6px')
-        } else {
-            let m = '--i:' + c;
-            el.setAttribute('style', m);
-        }
-
-        el.innerText = char;
-        document.getElementById('txtWaiting').appendChild(el);
-    }
-}
-
-// ****************************************************************
-// get game code
-function getGameCode(control) {
-    inpCreateGameCode.classList.remove('hidden')
-    document.getElementById(control.id).classList.add('hidden')
-    document.getElementById('sectionCopyCode').classList.remove('hidden')
-    document.getElementById('sectionJoinGame').classList.add('hidden')
-    document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
-
-    inpCreateGameCode.focus()
-    inpCreateGameCode.select()
-}
-
-// ****************************************************************
-// handle join game input focus
-function handleJoinGameCodeFocus() {
-    document.querySelector('#twoPlayerModalContent > hr').classList.add('hidden')
-    document.getElementById('sectionCreateGame').classList.add('hidden')
-}
-
-// ****************************************************************
-// handle join game input key up
-function handleJoinGameCodeKeyUp() {
-    let length = inpJoinGameCode.value.length
-
-    if (length >= 5) {
-        btnJoinGame.classList.remove('hidden')
-    } else {
-        btnJoinGame.classList.add('hidden')
-    }
-}
-
-// ****************************************************************
-// handle join game clicked
-function joinGame() {
-    // assign this guy as player 2
-    GAME.playerNumber = 2
-    GAME.join(GAME.playerNumber, false)
+function closeModal(elem) {
+    document.getElementById(elem).classList.add('hidden')
 }
 
 // ****************************************************************
 // show toast
-const FADE_DUR = 700, MIN_DUR = 6000
-let toastContain
-
 function showToast(str, addClass) {
     let duration = Math.max(MIN_DUR, str.length * 80)
 
     if (!toastContain) {
         toastContain = document.createElement('div')
-        toastContain.classList.add('toastContain')
+        toastContain.classList.add('toast-container')
+
+        if (ME.number === 2) {
+            toastContain.classList.add('toast-container-p2')
+        }
+        else {
+            toastContain.classList.add('toast-container-p1')
+        }
+
         document.body.appendChild(toastContain)
     }
 
@@ -250,8 +239,6 @@ function showToast(str, addClass) {
 }
 
 
-
-
 // ****************************************************************
 // update game board by filling in slot
 function updateBoard(currentPlayer, slotID, availableSlots) {
@@ -266,12 +253,7 @@ function updateBoard(currentPlayer, slotID, availableSlots) {
 
         document.getElementById(slotID).classList.add('slot-taken')
 
-        GAME.sndPickPiece.play()
-
-        // update available slots
-        if (availableSlots) {
-            GAME.available_slots = availableSlots
-        }
+        sndPickPiece.play()
     }
 
     socket.send(JSON.stringify({
@@ -290,12 +272,12 @@ function score(currentPlayer, playerOneScore, playerTwoScore, symbol) {
         points_element = 'ss_player1_' + symbol
 
         document.getElementById(points_element).innerHTML = parseInt(document.getElementById(points_element).innerHTML) + 1
-        document.getElementById('player1_Total').innerHTML = playerOneScore
+        $('#player1_Total').innerHTML = playerOneScore
     } else if (currentPlayer == 2) {
         points_element = 'ss_player2_' + symbol
 
         document.getElementById(points_element).innerHTML = parseInt(document.getElementById(points_element).innerHTML) + 1
-        document.getElementById('player2_Total').innerHTML = playerTwoScore
+        $('#player2_Total').innerHTML = playerTwoScore
     }
 
     GAME.sndSymbolFormed.play()
@@ -304,28 +286,30 @@ function score(currentPlayer, playerOneScore, playerTwoScore, symbol) {
 // ****************************************************************
 // slide the piece to its staging position
 function stageGamePiece() {
-    if (!GAME.moveStarted) {
-        GAME.activeGamePiece = document.getElementById(this.id)
+    if ((GAME.currentPlayer === ME.number) || (GAME.currentPlayer === 2 && GAME.type === 'SOLO')) {
+        if (!GAME.moveStarted) {
+            GAME.activeGamePiece = document.getElementById(this.id)
 
-        let leftBox_left = parseInt(document.querySelector('.cup-white-ovals').style.left.replace('px', ''))
-        let leftBox_width = parseInt(document.querySelector('.cup-white-ovals').style.width.replace('px', ''))
-        let leftBox_right = leftBox_left + leftBox_width
-        let rightBox_left = parseInt(document.querySelector('.cup-white-triangles').style.left.replace('px', ''))
-        let center = rightBox_left - leftBox_right
+            let leftBox_left = parseInt($('.cup-white-ovals').style.left.replace('px', ''))
+            let leftBox_width = parseInt($('.cup-white-ovals').style.width.replace('px', ''))
+            let leftBox_right = leftBox_left + leftBox_width
+            let rightBox_left = parseInt($('.cup-white-triangles').style.left.replace('px', ''))
+            let center = rightBox_left - leftBox_right
 
-        GAME.activeGamePiece.style.setProperty('--board-width', center + 'px')
+            GAME.activeGamePiece.style.setProperty('--board-width', center + 'px')
 
-        // let the server know that the move started
-        socket.send(JSON.stringify({
-            'event': 'MOVE_STARTED',
-            'currentPlayer': GAME.currentPlayer,
-            'gameID': GAME.id
-        }))
+            // let the server know that the move started
+            socket.send(JSON.stringify({
+                'event': 'MOVE_STARTED',
+                'currentPlayer': GAME.currentPlayer,
+                'gameID': GAME.id
+            }))
 
-        if (GAME.activeGamePiece.id.indexOf('Oval') > -1) {
-            GAME.activeGamePiece.classList.add('oval-piece-slide')
-        } else {
-            GAME.activeGamePiece.classList.add('triangle-piece-slide')
+            if (GAME.activeGamePiece.id.indexOf('Oval') > -1) {
+                GAME.activeGamePiece.classList.add('oval-piece-slide')
+            } else {
+                GAME.activeGamePiece.classList.add('triangle-piece-slide')
+            }
         }
     }
 }
@@ -369,7 +353,7 @@ function loadGamePieces(player_number) {
     box_cup_black_triangles.style.width = cbt.width + 'px'
     box_cup_black_triangles.style.height = cbt.height + 'px'
 
-    GAME.sndDroppingPieces.play()
+    sndDroppingPieces.play()
 
     // white ovals
     for (let i = 1; i <= 45; i++) {

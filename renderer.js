@@ -17,6 +17,7 @@ window.onload = function () {
             d.open("GET", b, !0), d.send()
         } catch (f) {}
     }
+
     var b,
         c = document.getElementsByTagName("*");
     for (b in c) c[b].hasAttribute && c[b].hasAttribute("data-include") && a(c[b], c[b].getAttribute("data-include"))

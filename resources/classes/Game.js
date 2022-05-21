@@ -3,16 +3,17 @@
 class Game {
   constructor() {
     this.id = null
+    
     this.inProgress = false
     this.activeGamePiece = null
     this.difficultyLevel = 1
     this.type = null
     this.moveStarted = false
-    this.playerNumber = 0
+    //this.playerNumber = 0
     this.currentPlayer = 0
 
-    this.playerOne = new Player(1)
-    this.playerTwo = new Player(2)
+    // this.playerOne = new Player(1)
+    // this.playerTwo = new Player(2)
 
     this.filledSlots = []
     this.available_slots = []
@@ -27,27 +28,68 @@ class Game {
     this.black_ovals = []
     this.white_triangles = []
     this.black_triangles = []
-
-    this.sndClick = new Sound('resources/sounds/click.mp3')
-    this.sndBackgroundMusic = new Sound('resources/sounds/davinci-music.mp3')
-    this.sndSymbolFormed = new Sound('resources/sounds/symbol-formed.mp3')
-    this.sndDroppingPieces = new Sound('resources/sounds/dropping-pieces.mp3')
-    this.sndPickPiece = new Sound('resources/sounds/pickpiece.mp3')
   }
 
-  join = function (playerNumber, isBot) {
-    sessionStorage.setItem('dvc-game-id', GAME.id)
-    sessionStorage.setItem('dvc-player-id', 'aaa')
-    sessionStorage.setItem('dvc-player-number', this.playerNumber)
+  /* --------------------------------------------------------- */
+  create = function(gameType) {
+    this.type = gameType
 
+    socket.send(JSON.stringify({
+      'event': 'CREATE_GAME',
+      'gameType': this.type
+    }))
+  }
+
+  /* --------------------------------------------------------- */
+  start = function() {
+    this.inProgress = true
+
+    socket.send(JSON.stringify({
+      'event': 'START_GAME',
+      'gameID': this.id
+    }))
+  }
+
+  /* --------------------------------------------------------- */
+  join = function(isBot) {
     this.inProgress = true
 
     socket.send(JSON.stringify({
       'event': 'JOIN_GAME',
       'gameID': this.id,
-      'playerNumber': playerNumber,
       'isBot': isBot
     }))
   }
+
+  /* --------------------------------------------------------- */
+  switchPlayer = function (currentPlayer, isBot) {
+    GAME.currentPlayer = currentPlayer
+
+    // is player 2 a bot?
+    if (currentPlayer === 2 && isBot) {
+      socket.send(JSON.stringify({
+        'event': 'GO_BOT',
+        gameID: GAME.id
+      }))
+    }
+  }
+
+  /* --------------------------------------------------------- */
+  toggleFlashers = function(currentPlayer) {
+    if (currentPlayer === 1) {
+      $('#cupBlackTriangles').classList.remove('my-turn')
+      $('#cupBlackOvals').classList.remove('my-turn')
+
+      $('#cupWhiteTriangles').classList.add('my-turn')
+      $('#cupWhiteOvals').classList.add('my-turn')
+    } 
+    else {
+      $('#cupWhiteTriangles').classList.remove('my-turn')
+      $('#cupWhiteOvals').classList.remove('my-turn')
+
+      $('#cupBlackTriangles').classList.add('my-turn')
+      $('#cupBlackOvals').classList.add('my-turn')
+    }
+  }  
 
 }

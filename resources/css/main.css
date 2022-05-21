@@ -26,7 +26,8 @@
     --triangle-piece-width: 0px;
     --font-modal: 'Yanone Kaffeesatz', sans-serif;
     --font-button: 'Yanone Kaffeesatz', sans-serif;
-    --font-scorecard: 'Courgette', cursive;
+    --font-scorecard: 'Yanone Kaffeesatz', sans-serif;
+    --font-scorecard-size: 3em;
 }
 
 html,
@@ -78,6 +79,10 @@ body {
     width: 300px;
 }
 
+.device-message {
+    display: none;
+}
+
 /*******************************************************************/
 /* game board */
 svg path {
@@ -98,10 +103,31 @@ svg path {
     position: absolute;
 }
 
+#cupBlackTriangles,
+#cupBlackOvals,
+#cupWhiteTriangles,
+#cupWhiteOvals {
+    fill: rgb(231, 233, 100);
+    fill-opacity: 0;
+    stroke: rgb(149,12,15);
+    stroke-width: 0.03px;
+}
+
+.my-turn {
+    animation: flash 500ms alternate infinite;
+    animation-delay: 1s;
+}
+
+@keyframes flash {
+    0% { fill-opacity: 0; }
+    100% { fill-opacity: .32; }
+ }
+
 /*******************************************************************/
 /* score cards */
 .scorecard-container {
-    font-family: 'Courgette', cursive;
+    font-family: var(--font-scorecard);
+    font-size: 2em;
     background-image: url('../images/parchment_background.jpg');
     background-size: 100% 100%;
 }
@@ -119,7 +145,6 @@ svg path {
 .grid-container-scorecard>div {
     background-color: rgba(255, 255, 255, .3);
     text-align: center;
-    font-size: 22px;
     border: 1px solid rgb(14, 4, 4);
     padding: 3px;
 }
@@ -135,14 +160,8 @@ svg path {
     position: absolute;
 }
 
-[id^='blackTriangle'],
-[id^='blackOval'] {
+.no-pointer-events {
     pointer-events: none;
-}
-
-[id^='whiteTriangle'],
-[id^='blackTriangle'] {
-    transform: rotate(200deg);
 }
 
 [id^='whiteTriangle'],
@@ -295,32 +314,13 @@ button:active {
         transform: rotateY(360deg)
     }
 }
-
-/*******************************************************************/
-/* feedback */
-#feedback {
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #fff;
-    width: 460px;
-    border-top-right-radius: 10%;
-}
-
-#feedbackText {
-    resize: none;
-    outline: none;
-    width: 450px;
-    border-width: 0px;
-    padding: 10px;
-    font-size: 1.2em;
-}
-
+ 
 /*******************************************************************/
 /* modal */
 .modal {
     position: fixed;
     z-index: 1;
-    padding-top: 100px;
+    padding-top: 90px;
     left: 0;
     top: 0;
     width: 100%;
@@ -337,8 +337,8 @@ button:active {
     margin: auto;
     border: 1px solid #888;
     border-radius: 4px;
-    height: 600px;
-    width: 52%;
+    height: 70%;
+    width: 48%;
     box-shadow: -5px -5px 10px;
     background-image: url('../images/modal-back.png');
     background-size: 100% 100%;   
@@ -400,15 +400,13 @@ button:active {
 /*******************************************************************/
 /* logo */
 .title-logo {
+    display: block;
     position: relative;
-    background-image: url('../images/dvc-logo-001.png');
-    background-repeat: no-repeat;
-    background-size: 700px 450px;
-    height: 450px;
-    width: 700px;
+    height: auto;
+    width: 52%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 8%;
+    margin-top: 10%;
 }
 
 /*******************************************************************/
@@ -486,29 +484,29 @@ button:active {
 }
 
 
-
-
-
-
-
-
-
-
-  
-  /* Default toast style */
-  .toastContain {
+/*******************************************************************/
+/* toast popup */
+  .toast-container {
     position: fixed;
     left: calc(50% - 150px);
-    bottom: 50px;
     width: 300px;
     font-size: 1.7em;
     font-family: var(--font-modal);
   }
+
+  .toast-container-p1 {
+    bottom: 100px;
+  }
+
+  .toast-container-p2 {
+    top: 100px;
+  }  
+
   .toast {
     opacity: 0;
     min-height: 30px;
     padding: 10px;
-    border: 1px solid dodgerblue;
+    border: 2px solid dodgerblue;
     margin-top: -42px;
     background-color: #fff;
     box-shadow: 0 3px 4px #0004;
@@ -520,6 +518,7 @@ button:active {
       transform 0.7s,
       opacity 0.7s;
   }
+
   .toast.open {
     margin-top: 10px;
     transform: scale(1) translateY(0);

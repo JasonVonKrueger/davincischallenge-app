@@ -2,7 +2,8 @@
 const socket = new WebSocket('wss://devserver.davincischallenge.app:8880')
 
 socket.onopen = function (e) {
-    //document.querySelector('#server-status').innerText = 'online'   
+    //document.querySelector('#server-status').innerText = 'online'  
+    //triggerEvent(document.getElementById('fakeClick'), 'click') 
 }
 
 // listen for messages
@@ -15,32 +16,22 @@ socket.onmessage = function (e) {
     if (message.type === 'DIRECT') {
         switch (message.event) {
             case 'GAME_CREATED':
-                // set the game ID
-                inpCreateGameCode.value = GAME.id
+                $('#inpCreateGameCode').value = GAME.id
+                $('#inpCreateGameCode').setSelectionRange(0, 99999)
+                $('#inpCreateGameCode').select() 
 
-                socket.send(JSON.stringify({
-                    'event': 'START_GAME',
-                    gameID: GAME.id
-                }))
+                GAME.start()
                 
                 break
             case 'GAME_STARTED':
-                GAME.inProgress = true
+                if (message.gameType === 'SOLO') {
+                    GAME.join(false) // join as human
+                    //loadGamePieces(1)
 
-                if (GAME.type === 'SOLO') {
-                    loadGamePieces(1)
-                    loadGamePieces(2)
-
-                    GAME.join(1, false) // join as human
-                    GAME.join(2, true) // join as bot
-
-                    showToast('You are player ' + GAME.playerNumber)
+                    GAME.join(true) // join as bot
+                    //loadGamePieces(2)                
                 }  
                 
-                if (GAME.type === 'FRIEND') {
-                    
-                }
-
                 break
         }
     }
@@ -48,31 +39,50 @@ socket.onmessage = function (e) {
     if (message.type === 'BROADCAST') {
         // messages between players of the same game
         if (message.gameID === GAME.id) {
-            switch (message.event) {
+            switch (message.event) {             
                 case 'JOINED_GAME':
-                    if (GAME.playerNumber === 1) {
+                    loadGamePieces(message.playerNumber)
 
-                    }
-
-                    if (GAME.playerNumber === 2) {
-
-                    }
-
-                    // let player 1 know that player 2 has joined
-                    if (!message.isBot && message.playerNumber === 2) {
-                        txtWaiting.innerHTML = 'Player 2 has joined the game!'
-
-                        setTimeout(function () {
-                            txtWaiting.classList.add('hidden')
-                            menu.style.height = '0%'
-                            document.getElementById('twoPlayerModal').classList.add('hidden')
-
-                            // load game pieces
-                            loadGamePieces(2)
-                        }, 2000)
+                    if (!ME.number) {
+                        if (message.playerNumber === 2) {
+                            ME.number = 2
+                            ME.id = message.playerID 
+                        }
+                        else {
+                            ME.number = 1
+                            ME.id = message.playerID
+                        }
                     }
 
                     break
+                case 'GAME_READY':
+                        // time to play....
+                        $('#txtWaiting').classList.add('hidden')
+                        $('#menu').style.height = '0%'
+                        $('.modal').classList.add('hidden')
+                        $('#waitingForPlayer').classList.add('hidden') 
+
+                        GAME.currentPlayer = message.currentPlayer
+
+                        // prevent player 1 from selecting player 2's pieces
+                        if (ME.number === 1) {
+                            Array.from(document.querySelectorAll('[id^="blackTriangle"],[id^="blackOval"]')).forEach(function(blackPiece) {
+                                blackPiece.classList.add('no-pointer-events')
+                            })                          
+                        }
+
+                        // prevent player 2 from selecting player 1's pieces
+                        if (ME.number === 2) {
+                            Array.from(document.querySelectorAll('[id^="whiteTriangle"],[id^="whiteOval"]')).forEach(function(whitePiece) {
+                                whitePiece.classList.add('no-pointer-events')
+                            })                          
+                        } 
+                        
+                        showToast('You are player ' + ME.number)
+    
+                        GAME.toggleFlashers(1)
+
+                        break   
                 case 'UPDATE_BOARD':
                     //updateBoard(message.slotID, message.availableSlots) 
 
@@ -87,18 +97,14 @@ socket.onmessage = function (e) {
 
                     break
                 case 'MOVE_COMPLETE':
-                    updateBoard(message.currentPlayer, message.slotID, message.availableSlots)
+                    //updateBoard(message.currentPlayer, message.slotID, message.availableSlots)
+                    updateBoard(message.currentPlayer, message.slotID)
                     GAME.moveStarted = false
 
                     break
                 case 'SWITCH_PLAYER':
-                    // is player 2 a bot?
-                    if (message.currentPlayer === 2 && message.playerTwoIsBot) {
-                        socket.send(JSON.stringify({
-                            'event': 'GO_BOT',
-                            gameID: GAME.id
-                        }))
-                    }
+                    GAME.switchPlayer(message.currentPlayer, message.playerTwoIsBot)
+                    GAME.toggleFlashers(message.currentPlayer)
 
                     break
                 case 'STAGE_BOT':
@@ -120,7 +126,6 @@ socket.onmessage = function (e) {
                     break
             }
         }
-
     }
 }
 

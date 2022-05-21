@@ -11,22 +11,25 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <link rel="apple-touch-icon" href="https://dev.davincischallenge.app/assets/images/ios/touch-icon-iphone.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://dev.davincischallenge.app/assets/images/ios/touch-icon-ipad.png">
-    <link rel="apple-touch-startup-image" href="https://dev.davincischallenge.app/assets/images/ios/launch.png">
-    <link rel="icon" href="https://dev.davincischallenge.app/assets/images/favicon.ico">    
+    <link rel="apple-touch-icon" href="https://dev.davincischallenge.app/resources/images/ios/touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://dev.davincischallenge.app/resources/images/ios/touch-icon-ipad.png">
+    <link rel="apple-touch-startup-image" href="https://dev.davincischallenge.app/resources/images/ios/launch.png">
+    <link rel="icon" href="https://dev.davincischallenge.app/resources/images/favicon.ico">    
     <link href="resources/css/main.css" rel="stylesheet">
     <link href="resources/css/mobile.css" rel="stylesheet"> 
   </head>
   <body>
    
+    <!-- lightning overlay -->
+    <!-- <div id="lightning"></div> -->
+
     <!-- spotter for menu -->
-    <div id="spotter">&#9776;</div>
-    <div id="menu" class="overlay">
-      <span id="btnMenuClose" class="closebtn hidden" onclick="closeMenu()">&times;</span>
+    <div id="spotter" class="no-portrait">&#9776;</div>
+    <div id="menu" class="overlay no-portrait">
+      <span id="btnMenuClose" class="closebtn hidden">&times;</span>
       <div class="overlay-content">   
        
-        <div class="title-logo"></div>
+        <div><img src="resources/images/dvc-logo-001.png" class="title-logo" /></div>
         
         <div id="actionIconRow">
           <div id="iconSinglePlayer" class="action-icon tooltip clicker">
@@ -58,37 +61,37 @@
     <!-- help -->
     <div data-include="resources/content-blocks/modal-game-rules.html"></div>
 
-    <div class="container">
-        <!-- game board -->
-        <div id="player1-scorecard" class="scorecard-container">
-            <div data-include="resources/content-blocks/scoresheetP1.html"></div>
-        </div>
+    <div class="container no-portrait">
+      <!-- game board -->
+      <div id="player1-scorecard" class="scorecard-container">
+          <div data-include="resources/content-blocks/scoresheetP1.html"></div>
+      </div>
 
       <div id="gameboard" class="column column-70">
         <div data-include="resources/images/gameboard_emboss.svg"></div>
       </div>
 
-        <div id="player2-scorecard" class="scorecard-container">
-            <div data-include="resources/content-blocks/scoresheetP2.html"></div>
-        </div>
+      <div id="player2-scorecard" class="scorecard-container">
+          <div data-include="resources/content-blocks/scoresheetP2.html"></div>
+      </div>
+      
     </div>
 
     <!-- game cup overlays -->
-    <div class="cup-white-ovals"></div>
-    <div class="cup-white-triangles"></div>
-    <div class="cup-black-ovals"></div>
-    <div class="cup-black-triangles"></div>
+    <div class="cup-white-ovals no-portrait"></div>
+    <div class="cup-white-triangles no-portrait"></div>
+    <div class="cup-black-ovals no-portrait"></div>
+    <div class="cup-black-triangles no-portrait"></div>
 
     <!-- MOBILE: rotate your device -->
     <div class="device-message">
-      <p>Rotate your device</p>
       <img src="resources/images/rotate-phone2.gif" />
     </div>
-  
+
     <script src="renderer.js"></script>
     <script src="resources/classes/Game.js"></script>
     <script src="resources/classes/GamePiece.js"></script>
-    <script src="resources/classes/Player.js"></script>
+    <!-- <script src="resources/classes/Player.js"></script> -->
     <script src="resources/classes/Sound.js"></script>
     <script src="resources/js/main.js"></script>
     <script src="resources/js/socket.js"></script>
