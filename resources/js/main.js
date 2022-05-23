@@ -273,7 +273,8 @@ function score(currentPlayer, playerOneScore, playerTwoScore, symbol) {
 
         document.getElementById(points_element).innerHTML = parseInt(document.getElementById(points_element).innerHTML) + 1
         $('#player1_Total').innerHTML = playerOneScore
-    } else if (currentPlayer == 2) {
+    } 
+    else if (currentPlayer == 2) {
         points_element = 'ss_player2_' + symbol
 
         document.getElementById(points_element).innerHTML = parseInt(document.getElementById(points_element).innerHTML) + 1

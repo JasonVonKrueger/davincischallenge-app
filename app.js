@@ -7,8 +7,8 @@ const createWindow = () => {
     const mainWindow = new BrowserWindow({
         title: "Da Vinci's Challenge",
         icon: path.join(__dirname, '/resources/images/favicon.ico'),
-        width: 1475,
-        height: 860,
+        width: 1275,
+        height: 910,
         center: true,
         resizable: false,        
         webPreferences: {
