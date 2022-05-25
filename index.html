@@ -67,7 +67,7 @@
     <div class="container no-portrait">
       <!-- game board -->
       <div id="player1-scorecard" class="scorecard-container">
-          <!-- <div data-include="resources/content-blocks/scoresheetP1.html"></div> -->
+          <div data-include="resources/content-blocks/scoresheetP1.html"></div>
       </div>
 
       <div id="gameboard" class="column column-70">
@@ -75,9 +75,8 @@
       </div>
 
       <div id="player2-scorecard" class="scorecard-container">
-          <!-- <div data-include="resources/content-blocks/scoresheetP2.html"></div> -->
+          <div data-include="resources/content-blocks/scoresheetP2.html"></div>
       </div>
-      
     </div>
 
     <!-- game cup overlays -->
@@ -90,6 +89,61 @@
     <div class="device-message">
       <img src="resources/images/rotate-phone2.gif" />
     </div>
+
+
+    <div class="scorecard">
+      <div class="flex-container">
+        <div id="namePlayer1" class="cell-playername" style="grid-column: 1 / span 3; width: 100%;">Player 1</div>
+
+        
+        <div><img src="resources/images/ss-1.png" /></div>
+        <div>1</div>
+        <div id="ss_player1_triangle">0</div> 
+
+        <div><img src="resources/images/ss-2.png" /></div>
+        <div>5</div>
+        <div id="ss_player1_diamond">0</div> 
+
+        <div><img src="resources/images/ss-3.png" /></div>
+        <div>10</div>
+        <div id="ss_player1_gem">0</div> 
+
+        <div><img src="resources/images/ss-4.png" /></div>
+        <div>10</div>
+        <div id="ss_player1_eye">0</div> 
+        
+        <div><img src="resources/images/ss-5.png" /></div>
+        <div>10</div>
+        <div id="ss_player1_pyramid">0</div> 
+        
+        <div><img src="resources/images/ss-6.png" /></div>
+        <div>25</div>
+        <div id="ss_player1_hourglass">0</div> 
+
+        <div><img src="resources/images/ss-7.png" /></div>
+        <div>25</div>
+        <div id="ss_player1_star">0</div> 
+        
+        <div><img src="resources/images/ss-8.png" /></div>
+        <div>25</div>
+        <div id="ss_player1_circle">0</div> 	
+        
+        <div><img src="resources/images/ss-9.png" /></div>
+        <div>25</div>
+        <div id="ss_player1_flower">0</div>
+
+        <div style="grid-column: 1 / span 2; width: 100%;">Total</div> 
+        <div id="player1_Total">0</div> 
+
+
+
+
+      </div> 
+    </div>
+
+
+
+
 
     <script src="renderer.js"></script>
     <script src="resources/classes/Game.js"></script>

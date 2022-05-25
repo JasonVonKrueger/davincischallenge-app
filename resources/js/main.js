@@ -273,12 +273,16 @@ function score(currentPlayer, playerOneScore, playerTwoScore, symbol) {
 
         document.getElementById(points_element).innerHTML = parseInt(document.getElementById(points_element).innerHTML) + 1
         $('#player1_Total').innerHTML = playerOneScore
+
+        // show player scores
     } 
     else if (currentPlayer == 2) {
         points_element = 'ss_player2_' + symbol
 
         document.getElementById(points_element).innerHTML = parseInt(document.getElementById(points_element).innerHTML) + 1
         $('#player2_Total').innerHTML = playerTwoScore
+
+        // show player scores
     }
 
     GAME.sndSymbolFormed.play()
