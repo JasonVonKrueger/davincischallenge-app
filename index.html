@@ -1,157 +1,116 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <base href="./">
-    <title>Da Vinci's Challenge</title>
-    <meta name="description" content="Da Vinci's Challenge">
-    <meta name="author" content="Mr Monster">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <link rel="apple-touch-icon" href="https://dev.davincischallenge.app/resources/images/ios/touch-icon-iphone.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://dev.davincischallenge.app/resources/images/ios/touch-icon-ipad.png">
-    <link rel="apple-touch-startup-image" href="https://dev.davincischallenge.app/resources/images/ios/launch.png">
-    <link rel="icon" href="https://dev.davincischallenge.app/resources/images/favicon.ico">    
-    <link href="resources/css/main.css" rel="stylesheet">
-    <link href="resources/css/mobile.css" rel="stylesheet"> 
-  </head>
-  <body>
-   
-    <!-- lightning overlay -->
-    <!-- <div id="lightning"></div> -->
 
-    <!-- spotter for menu -->
-    <div id="spotter" class="no-portrait">&#9776;</div>
-    <div id="menu" class="overlay no-portrait">
-      <span id="btnMenuClose" class="closebtn hidden">&times;</span>
-      <div class="overlay-content">   
-       
-        <div><img src="resources/images/dvc-logo-001.png" class="title-logo" /></div>
-        
-        <div id="actionIconRow">
-          <div id="iconSinglePlayer" class="action-icon tooltip clicker">
-            <span class="tooltiptext">Single player</span>
-          </div>
-          <div id="iconDoublePlayer" class="action-icon tooltip clicker">
-            <span class="tooltiptext">Play a friend</span>
-          </div>
-          <div id="iconMusic" class="action-icon tooltip clicker">
-            <span class="tooltiptext">Toggle music</span>
-          </div>
-          <div id="iconHelp" class="action-icon tooltip clicker">
-            <span class="tooltiptext">Help</span>
-          </div>
-          <div id="iconExit" class="action-icon tooltip clicker">
-            <span class="tooltiptext">Exit</span>
-          </div>
+<head>
+  <base href="./">
+  <title>Da Vinci's Challenge</title>
+  <meta name="description" content="Da Vinci's Challenge">
+  <meta name="author" content="Mr Monster">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="apple-touch-icon" href="https://dev.davincischallenge.app/resources/images/ios/touch-icon-iphone.png">
+  <link rel="apple-touch-icon" sizes="152x152"
+    href="https://dev.davincischallenge.app/resources/images/ios/touch-icon-ipad.png">
+  <link rel="apple-touch-startup-image" href="https://dev.davincischallenge.app/resources/images/ios/launch.png">
+  <link rel="icon" href="https://dev.davincischallenge.app/resources/images/favicon.ico">
+  <link href="resources/css/main.css" rel="stylesheet">
+  <link href="resources/css/mobile.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- lightning overlay -->
+  <!-- <div id="lightning"></div> -->
+
+  <!-- spotter for menu -->
+  <div id="spotter" class="no-portrait">&#9776;</div>
+  <div id="menu" class="overlay no-portrait">
+    <span id="btnMenuClose" class="closebtn hidden">&times;</span>
+    <div class="overlay-content">
+
+      <div><img src="resources/images/dvc-logo-001.png" class="title-logo" /></div>
+
+      <div id="actionIconRow">
+        <div id="iconSinglePlayer" class="action-icon tooltip clicker">
+          <span class="tooltiptext">Single player</span>
         </div>
-     
-      </div>
-    </div>
-
-    <!-- two player modal -->
-    <div data-include="resources/content-blocks/modal-two-player.html"></div>
-
-    <!-- waiting for player 2 -->
-    <div data-include="resources/content-blocks/modal-waiting-for-player.html"></div>
-
-    <!-- help -->
-    <div data-include="resources/content-blocks/modal-game-rules.html"></div>
-
-    <!-- concept video modal -->
-    <div data-include="resources/content-blocks/modal-concept.html"></div>
-
-    <div class="container no-portrait">
-      <!-- game board -->
-      <div id="player1-scorecard" class="scorecard-container">
-          <div data-include="resources/content-blocks/scoresheetP1.html"></div>
+        <div id="iconDoublePlayer" class="action-icon tooltip clicker">
+          <span class="tooltiptext">Play a friend</span>
+        </div>
+        <div id="iconMusic" class="action-icon tooltip clicker">
+          <span class="tooltiptext">Toggle music</span>
+        </div>
+        <div id="iconHelp" class="action-icon tooltip clicker">
+          <span class="tooltiptext">Help</span>
+        </div>
+        <div id="iconExit" class="action-icon tooltip clicker">
+          <span class="tooltiptext">Exit</span>
+        </div>
       </div>
 
-      <div id="gameboard" class="column column-70">
-        <div data-include="resources/images/gameboard_emboss.svg"></div>
-      </div>
+    </div>
+  </div>
 
-      <div id="player2-scorecard" class="scorecard-container">
-          <div data-include="resources/content-blocks/scoresheetP2.html"></div>
-      </div>
+  <!-- two player modal -->
+  <div data-include="resources/content-blocks/modal-two-player.html"></div>
+
+  <!-- waiting for player 2 -->
+  <div data-include="resources/content-blocks/modal-waiting-for-player.html"></div>
+
+  <!-- help -->
+  <div data-include="resources/content-blocks/modal-game-rules.html"></div>
+
+  <!-- concept video modal -->
+  <div data-include="resources/content-blocks/modal-concept.html"></div>
+
+  <!-- Player 1 score card -->
+  <div data-include="resources/content-blocks/scoresheetP1.html"></div>
+
+  <!-- Player 2 score card -->
+  <div data-include="resources/content-blocks/scoresheetP2.html"></div>
+  
+
+  <div class="container no-portrait">
+    <!-- <div id="player2-scorecard" class="scorecard-container">
+      <div data-include="resources/content-blocks/scoresheetP2.html"></div>
+    </div> -->
+    <div style="background-image: url('resources/images/sideboards.jpg');"></div>
+
+    <div id="gameboard" class="column column-70">
+      <div data-include="resources/images/gameboard_emboss.svg"></div>
     </div>
 
-    <!-- game cup overlays -->
-    <div class="cup-white-ovals no-portrait"></div>
-    <div class="cup-white-triangles no-portrait"></div>
-    <div class="cup-black-ovals no-portrait"></div>
-    <div class="cup-black-triangles no-portrait"></div>
+    <div style="background-image: url('resources/images/sideboards.jpg');"></div>
 
-    <!-- MOBILE: rotate your device -->
-    <div class="device-message">
-      <img src="resources/images/rotate-phone2.gif" />
-    </div>
+    <!-- <div id="player2-scorecard" class="scorecard-container">
+      <div data-include="resources/content-blocks/scoresheetP2.html"></div>
+    </div> -->
+  </div>
 
+  <!-- game cup overlays -->
+  <div class="cup-white-ovals no-portrait"></div>
+  <div class="cup-white-triangles no-portrait"></div>
+  <div class="cup-black-ovals no-portrait"></div>
+  <div class="cup-black-triangles no-portrait"></div>
 
-    <div class="scorecard">
-      <div class="flex-container">
-        <div id="namePlayer1" class="cell-playername" style="grid-column: 1 / span 3; width: 100%;">Player 1</div>
-
-        
-        <div><img src="resources/images/ss-1.png" /></div>
-        <div>1</div>
-        <div id="ss_player1_triangle">0</div> 
-
-        <div><img src="resources/images/ss-2.png" /></div>
-        <div>5</div>
-        <div id="ss_player1_diamond">0</div> 
-
-        <div><img src="resources/images/ss-3.png" /></div>
-        <div>10</div>
-        <div id="ss_player1_gem">0</div> 
-
-        <div><img src="resources/images/ss-4.png" /></div>
-        <div>10</div>
-        <div id="ss_player1_eye">0</div> 
-        
-        <div><img src="resources/images/ss-5.png" /></div>
-        <div>10</div>
-        <div id="ss_player1_pyramid">0</div> 
-        
-        <div><img src="resources/images/ss-6.png" /></div>
-        <div>25</div>
-        <div id="ss_player1_hourglass">0</div> 
-
-        <div><img src="resources/images/ss-7.png" /></div>
-        <div>25</div>
-        <div id="ss_player1_star">0</div> 
-        
-        <div><img src="resources/images/ss-8.png" /></div>
-        <div>25</div>
-        <div id="ss_player1_circle">0</div> 	
-        
-        <div><img src="resources/images/ss-9.png" /></div>
-        <div>25</div>
-        <div id="ss_player1_flower">0</div>
-
-        <div style="grid-column: 1 / span 2; width: 100%;">Total</div> 
-        <div id="player1_Total">0</div> 
+  <!-- MOBILE: rotate your device -->
+  <div class="device-message">
+    <img src="resources/images/rotate-phone2.gif" />
+  </div>
 
 
+  <script src="renderer.js"></script>
+  <script src="resources/classes/Game.js"></script>
+  <script src="resources/classes/GamePiece.js"></script>
+  <!-- <script src="resources/classes/Player.js"></script> -->
+  <script src="resources/classes/Sound.js"></script>
+  <script src="resources/js/main.js"></script>
+  <script src="resources/js/socket.js"></script>
 
+</body>
 
-      </div> 
-    </div>
-
-
-
-
-
-    <script src="renderer.js"></script>
-    <script src="resources/classes/Game.js"></script>
-    <script src="resources/classes/GamePiece.js"></script>
-    <!-- <script src="resources/classes/Player.js"></script> -->
-    <script src="resources/classes/Sound.js"></script>
-    <script src="resources/js/main.js"></script>
-    <script src="resources/js/socket.js"></script>
-
-  </body>
 </html>

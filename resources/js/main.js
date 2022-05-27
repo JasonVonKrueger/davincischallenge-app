@@ -238,7 +238,6 @@ function showToast(str, addClass) {
     )
 }
 
-
 // ****************************************************************
 // update game board by filling in slot
 function updateBoard(currentPlayer, slotID, availableSlots) {
