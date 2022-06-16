@@ -53,6 +53,13 @@ function initEventListeners() {
         })
     })
 
+    // escape closes menu
+    document.addEventListener('keypress', function (e) {
+        if (GAME.inProgress && e.code === 'Escape') {
+            menu.style.height = '0%'
+        }
+    })
+
     /* --------------------------------------------------------- */
     $('#iconSinglePlayer').addEventListener('click', function(e) {
         menu.style.height = '0%'
