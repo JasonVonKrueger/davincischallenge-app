@@ -6,7 +6,7 @@
 const $ = document.querySelector.bind(document)
 
 const sndClick = new Sound('resources/sounds/click.mp3')
-const sndOpeningTrack = new Sound('resources/sounds/cinematic-soundtrack-plain-chant-12502.mp3')
+//const sndOpeningTrack = new Sound('resources/sounds/cinematic-soundtrack-plain-chant-12502.mp3')
 const sndBackgroundMusic = new Sound('resources/sounds/davinci-music.mp3')
 const sndSymbolFormed = new Sound('resources/sounds/symbol-formed.mp3')
 const sndDroppingPieces = new Sound('resources/sounds/dropping-pieces.mp3')
@@ -68,7 +68,6 @@ function initEventListeners() {
 
     /* --------------------------------------------------------- */
     $('#iconDoublePlayer').addEventListener('click', function(e) {
-        menu.style.height = '0%'
         document.getElementById('twoPlayerModal').classList.remove('hidden')
     })
 

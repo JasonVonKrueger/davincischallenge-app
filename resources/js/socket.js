@@ -37,6 +37,7 @@ socket.onmessage = function (e) {
     }
 
     if (message.type === 'BROADCAST') {
+        console.log('RGP: ' + message.event)
         // messages between players of the same game
         if (message.gameID === GAME.id) {
             switch (message.event) {             
@@ -89,7 +90,11 @@ socket.onmessage = function (e) {
                     break
                 case 'SCORE':
                     score(message.currentPlayer, message.playerOneScore, message.playerTwoScore, message.symbol)
-
+                    console.log('ROGER....')
+                    console.log(message.currentPlayer)
+                    console.log(message.playerOneScore)
+                    console.log(message.playerTwoScore)
+                    console.log(message.symbol)
                     break
                 case 'MOVE_STARTED':
                     GAME.moveStarted = true
